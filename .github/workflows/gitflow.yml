@@ -1,0 +1,20 @@
+name: GitFlow
+
+on:
+  pull_request:
+    branches:
+      - dev
+
+jobs:
+  enforce_pr_branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR branch
+        id: check_branch
+        run: echo "::set-output name=branch::$(jq --raw-output '.pull_request.head.ref' "$GITHUB_EVENT_PATH")"
+
+      - name: Enforce branch type
+        if: ${{ !startsWith(steps.check_branch.outputs.branch, 'feat/') && !startsWith(steps.check_branch.outputs.branch, 'fix/')  && !startsWith(steps.check_branch.outputs.branch, 'release/') }}
+        run: |
+          echo "Pull requests to the dev branch must come from a feat, fix, or release branch."
+          exit 1
