@@ -30,13 +30,17 @@ jobs:
         run: echo "::set-output name=branch::$(jq --raw-output '.pull_request.head.ref' "$GITHUB_EVENT_PATH")"
 
       - name: Enforce branch type for dev
-        if: github.event.pull_request.base.ref == 'dev' && !startsWith(steps.check_branch.outputs.branch, 'feat/') && !startsWith(steps.check_branch.outputs.branch, 'fix/')  && !startsWith(steps.check_branch.outputs.branch, 'release/')
+        if: github.event.pull_request.base.ref == 'dev'
         run: |
-          echo "Pull requests to the dev branch must come from a feat, fix, or release branch."
-          exit 1
+          if [[ ! ${{ steps.check_branch.outputs.branch }} =~ ^(release/|feat/|fix/) ]]; then
+            echo "Pull requests to the dev branch must come from a feat, fix, or release branch."
+            exit 1
+          fi
 
       - name: Enforce branch type for prod
-        if: github.event.pull_request.base.ref == 'prod' && !startsWith(steps.check_branch.outputs.branch, 'fix/') && !startsWith(steps.check_branch.outputs.branch, 'release/')
+        if: github.event.pull_request.base.ref == 'prod'
         run: |
-          echo "Pull requests to the prod branch must come from a fix or release branch."
-          exit 1
+          if [[ ! ${{ steps.check_branch.outputs.branch }} =~ ^(release/|fix/) ]]; then
+            echo "Pull requests to the prod branch must come from a fix or release branch."
+            exit 1
+          fi
