@@ -14,7 +14,7 @@ jobs:
         run: echo "::set-output name=branch::$(jq --raw-output '.pull_request.head.ref' "$GITHUB_EVENT_PATH")"
 
       - name: Enforce branch type
-        if: ${{ !startsWith(steps.check_branch.outputs.branch, 'feat/') && !startsWith(steps.check_branch.outputs.branch, 'fix/')  && !startsWith(steps.check_branch.outputs.branch, 'release/') }}
+        if: ${{ !startsWith(steps.check_branch.outputs.branch, 'feat/') && !startsWith(steps.check_branch.outputs.branch, 'fix/')  && !startsWith(steps.check_branch.outputs.branch, 'r/') }}
         run: |
           echo "Pull requests to the dev branch must come from a feat, fix, or release branch."
           exit 1
