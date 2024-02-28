@@ -88,6 +88,7 @@ Push the release to the remote repository and create a pull request to the `prod
 If the pull request is approved, the release will be merged.
 
 TODO: Auto merge the release branch into the `dev` branch.
+
 TODO: Auto create a tag with the version of the release.
 
 ## Start a new hotfix
@@ -104,6 +105,7 @@ Push the hotfix to the remote repository and create a pull request to the `prod`
 If the pull request is approved, the hotfix will be merged and squashed into a single commit.
 
 TODO: Auto merge the hotfix branch into the `dev` branch.
+
 TODO: Auto create a tag with the version of the hotfix.
 
 ### Cleanup
