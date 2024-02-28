@@ -9,7 +9,5 @@ repos:
 
 - hooks:
   - id: commitizen
-    stages:
-    - push
   repo: https://github.com/commitizen-tools/commitizen
   rev: v3.16.0
