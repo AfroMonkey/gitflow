@@ -23,3 +23,5 @@ Version tag prefix? []
 The pull requests must be Squash and Merge
 
 Use `commitizen` to create the commit messages.
+
+T
