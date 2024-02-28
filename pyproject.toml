@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gitflow"
-version = "24.28.0"
+version = "0.0.0"
 description = "Demo repo to use GitFlow in a Python project."
 authors = ["Moises Navarro <moisalejandro@gmail.com>"]
 readme = "README.md"
@@ -15,7 +15,7 @@ commitizen = "^3.16.0"
 
 [tool.commitizen]
 name = "cz_conventional_commits"
-tag_format = "$version"
+tag_format = "24.28.$version"
 version_scheme = "pep440"
 version_provider = "poetry"
 update_changelog_on_bump = true
