@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gitflow"
-version = "24.27.0"
+version = "24.28.0"
 description = "Demo repo to use GitFlow in a Python project."
 authors = ["Moises Navarro <moisalejandro@gmail.com>"]
 readme = "README.md"
