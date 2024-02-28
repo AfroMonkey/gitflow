@@ -21,3 +21,10 @@ Version tag prefix? []
 ```
 
 The pull requests must be Squash and Merge
+
+Use `commitizen` to create the commit messages.
+
+The version is proposed to be in the format `S.R.H` where:
+- `S` is the sprint number
+- `R` is the release number
+- `H` is the hotfix number
