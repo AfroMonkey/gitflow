@@ -1,0 +1,49 @@
+name: GitFlow
+
+on:
+  push:
+    branches-ignore:
+      - 'prod'
+      - 'dev'
+      - 'test'
+  pull_request:
+    branches:
+      - prod
+      - dev
+
+jobs:
+  enforce_pr_branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Check branches for valid prefixes
+        id: check_branches
+        run: |
+          git for-each-ref --format='%(refname:short)' refs/heads/* | grep -v 'master\|dev\|prod' | while read -r branch; do
+            if [[ ! $branch =~ ^(release/|feat/|fix/) ]]; then
+              echo "Branch $branch does not start with a valid prefix (release/, feat/, or fix/)"
+              exit 1
+            fi
+          done
+
+      - name: Check PR branch
+        id: check_branch
+        run: echo "::set-output name=branch::$(jq --raw-output '.pull_request.head.ref' "$GITHUB_EVENT_PATH")"
+
+      - name: Enforce branch type for dev
+        if: github.event.pull_request.base.ref == 'dev'
+        run: |
+          if [[ ! ${{ steps.check_branch.outputs.branch }} =~ ^(release/|feat/|fix/) ]]; then
+            echo "Pull requests to the dev branch must come from a feat, fix, or release branch."
+            exit 1
+          fi
+
+      - name: Enforce branch type for prod
+        if: github.event.pull_request.base.ref == 'prod'
+        run: |
+          if [[ ! ${{ steps.check_branch.outputs.branch }} =~ ^(release/|fix/) ]]; then
+            echo "Pull requests to the prod branch must come from a fix or release branch."
+            exit 1
+          fi
